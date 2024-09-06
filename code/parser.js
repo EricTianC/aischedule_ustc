@@ -37,7 +37,7 @@ function scheduleHtmlParser(html) { // html 实为 json string
     sections.push(...Array.from({ length: course.endUnit - course.startUnit + 1}, (_, i) => course.startUnit + i));
     return {
       name: course.courseName,
-      position: course.room,
+      position: course.room == null ? '' : course.room,
       teacher: course.teachers.join(','),
       weeks: weeks,
       day: course.weekday,
