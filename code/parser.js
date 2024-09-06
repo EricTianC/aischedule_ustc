@@ -38,7 +38,7 @@ function scheduleHtmlParser(html) { // html 实为 json string
     return {
       name: course.courseName,
       position: course.room == null ? '' : course.room,
-      teacher: course.teachers.join(','),
+      teacher: course.teachers.join(', '),
       weeks: weeks,
       day: course.weekday,
       sections: sections
