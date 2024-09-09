@@ -25,16 +25,23 @@ function weeksParser(weeksStr) {
   var weeks = weeksParts.flatMap((weeksPart) => {
     if (weeksPart.endsWith('单')) { // 单周
       weeksPart = weeksPart.slice(0, -1)
-      const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+      const [weeks_start, weeks_end] = weeksPart.split('-').map(Number);
       return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i).filter((week) => week%2===1);
 
     } else if (weeksPart.endsWith('双')) { // 双周
       weeksPart = weeksPart.slice(0, -1)
-      const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+
+      console.log(weeksPart)
+
+      const [weeks_start, weeks_end] = weeksPart.split('-').map(Number);
+
+      // tempArray = Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i)
+      // console.log(tempArray)
+
       return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i).filter((week) => week%2===0);
 
     } else if (weeksPart.includes('-')) {
-      const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+      const [weeks_start, weeks_end] = weeksPart.split('-').map(Number);
       return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i);
 
     } else { // 独周
