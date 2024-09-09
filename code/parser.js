@@ -18,10 +18,10 @@
 ] 
   */
 
-function scheduleHtmlParser(html) { // html 实为 json string
+function scheduleHtmlParser(resJson) { // html 实为 json string
   var courseInfos = []
   // try {
-  const courses = JSON.parse(html).studentTableVm.activities
+  const courses = JSON.parse(resJson)
   // } catch (e) {
   //   console.error("Parsing error:", e); // TODO:
   // }
