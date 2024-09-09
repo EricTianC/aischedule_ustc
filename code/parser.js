@@ -19,11 +19,31 @@
   */
 
 function weeksParser(weeksStr) {
-  var weeks = [];
-  const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
 
+  const weeksParts = weeksStr.split(',')
+
+  console.log(weeksParts)
+
+  var weeks = weeksParts.flatMap((weeksPart) => {
+    if (weeksPart.endsWith('单')) { // 单周
+      weeksPart = weeksPart.slice(0, -1)
+      const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i).filter((week) => week%2===1);
+
+    } else if (weeksPart.endsWith('双')) { // 双周
+      weeksPart = weeksPart.slice(0, -1)
+      const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i).filter((week) => week%2===0);
+
+    } else if (weeksPart.includes('-')) {
+      const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i);
+
+    } else { // 独周
+      return [Number(weeksPart)]
+    }
+  })
   // 使用Array.from()和箭头函数创建数组
-  weeks.push(...Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i));
   return weeks
 }
 
