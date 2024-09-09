@@ -18,7 +18,17 @@
 ] 
   */
 
-function scheduleHtmlParser(resJson) { // html 实为 json string
+function weeksParser(weeksStr) {
+  var weeks = [];
+  const [weeks_start, weeks_end] = weeksStr.split('-').map(Number);
+
+  // 使用Array.from()和箭头函数创建数组
+  weeks.push(...Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i));
+  return weeks
+}
+
+
+function scheduleHtmlParser(resJson) {
   var courseInfos = []
   // try {
   const courses = JSON.parse(resJson)
@@ -28,13 +38,9 @@ function scheduleHtmlParser(resJson) { // html 实为 json string
   // console.log(courses)
 
   courseInfos = courses.map((course) => {
-    var weeks = [];
-    const [weeks_start, weeks_end] = course.weeksStr.split('-').map(Number);
-
-// 使用Array.from()和箭头函数创建数组
-    weeks.push(...Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i));
+    weeks = weeksParser(course.weeksStr)
     var sections = [];
-    sections.push(...Array.from({ length: course.endUnit - course.startUnit + 1}, (_, i) => course.startUnit + i));
+    sections.push(...Array.from({ length: course.endUnit - course.startUnit + 1 }, (_, i) => course.startUnit + i));
     return {
       name: course.courseName,
       position: course.room == null ? '' : course.room,
