@@ -22,8 +22,6 @@ function weeksParser(weeksStr) {
 
   const weeksParts = weeksStr.split(',')
 
-  console.log(weeksParts)
-
   var weeks = weeksParts.flatMap((weeksPart) => {
     if (weeksPart.endsWith('单')) { // 单周
       weeksPart = weeksPart.slice(0, -1)
