@@ -26,31 +26,28 @@ function weeksParser(weeksStr) {
     if (weeksPart.endsWith('单')) { // 单周
       weeksPart = weeksPart.slice(0, -1)
       const [weeks_start, weeks_end] = weeksPart.split('-').map(Number);
-      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i).filter((week) => week%2===1);
-
-    } else if (weeksPart.endsWith('双')) { // 双周
+      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i)
+          .filter((week) => week % 2 === 1 && week !== 0);
+        } else if (weeksPart.endsWith('双')) { // 双周
       weeksPart = weeksPart.slice(0, -1)
-
-      console.log(weeksPart)
-
       const [weeks_start, weeks_end] = weeksPart.split('-').map(Number);
-
-      // tempArray = Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i)
-      // console.log(tempArray)
-
-      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i).filter((week) => week%2===0);
-
-    } else if (weeksPart.includes('-')) {
+      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i)
+          .filter((week) => week % 2 === 0 && week !== 0);
+        } else if (weeksPart.includes('-')) {
       const [weeks_start, weeks_end] = weeksPart.split('-').map(Number);
-      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i);
+      return Array.from({ length: weeks_end - weeks_start + 1 }, (_, i) => weeks_start + i)
+          .filter((week) => week !== 0);
+        } else { // 独周
+      const week = Number(weeksPart);
+      return week !== 0 ? [week] : [];
+        }
+      })
 
-    } else { // 独周
-      return [Number(weeksPart)]
+      // // 全局去除 weeks 中的 0
+      // weeks = weeks.filter((week) => week !== 0);
+
+      return weeks;
     }
-  })
-  // 使用Array.from()和箭头函数创建数组
-  return weeks
-}
 
 
 function scheduleHtmlParser(resJson) {
@@ -72,7 +69,7 @@ function scheduleHtmlParser(resJson) {
       teacher: course.teachers.join(', '),
       weeks: weeks,
       day: course.weekday,
-      sections: sections
+      sections: sections.filter(section => section !== 0)
     }
   })
   return courseInfos
